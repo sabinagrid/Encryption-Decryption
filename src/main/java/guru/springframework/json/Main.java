@@ -20,6 +20,11 @@ public final class Main {
         String outFile = argMap.get("out");
         String algorithm = argMap.getOrDefault("alg", "shift");
 
+        if (!"enc".equals(mode) && !"dec".equals(mode)) {
+            System.out.println("Error");
+            return;
+        }
+
         if (data.isEmpty() && inFile != null) {
             try {
                 data = Files.readString(Path.of(inFile));
@@ -47,7 +52,7 @@ public final class Main {
         }
     }
 
-    private static Map<String, String> parseArgs(String[] args) {
+    static Map<String, String> parseArgs(String[] args) {
         Map<String, String> argMap = new HashMap<>();
         for (int i = 0; i < args.length; i += 2) {
             if (i + 1 < args.length) {
@@ -57,7 +62,7 @@ public final class Main {
         return argMap;
     }
 
-    private static String processShift(String data, int key, String mode) {
+    static String processShift(String data, int key, String mode) {
         StringBuilder result = new StringBuilder();
         int shift = "dec".equals(mode) ? -key : key;
         for (char c : data.toCharArray()) {
@@ -72,7 +77,7 @@ public final class Main {
         return result.toString();
     }
 
-    private static String processUnicode(String data, int key, String mode) {
+    static String processUnicode(String data, int key, String mode) {
         StringBuilder result = new StringBuilder();
         int shift = "dec".equals(mode) ? -key : key;
         for (char c : data.toCharArray()) {
